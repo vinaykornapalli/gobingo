@@ -9,10 +9,9 @@ type BingoMatrix struct {
 	cell [][]int
 }
 
-func initMatrix() BingoMatrix {
+func (b BingoMatrix) InitMatrix() {
 
 	var a []int
-	var b BingoMatrix
 
 	for i := 1; i <= 25; i++ {
 		a = append(a, i)
@@ -29,6 +28,20 @@ func initMatrix() BingoMatrix {
 		}
 
 	}
+}
 
-	return b
+func (b *BingoMatrix) UpdateMatrix(val int) (int, int) {
+
+	for i := 0; i < 5; i++ {
+
+		for j := 0; j < 5; j++ {
+
+			if b.cell[i][j] == val {
+				b.cell[i][j] = 0
+				return i, j
+			}
+		}
+	}
+	return -1, -1
+
 }
