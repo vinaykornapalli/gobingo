@@ -13,49 +13,54 @@ type Game struct {
 	winner  Player
 }
 
-func initGame(playerName string) string {
+func CreateNewGame(playerName string) string {
 
 	var g Game
+	newgameID := g.InitGame(playerName)
 
-	id := uuid.New()
-	g.gameID = id.String()
-	g.addPlayer(initPlayer(playerName))
-
-	return g.gameID
-
+	return newgameID
 }
 
-func (g *Game) addPlayer(p Player) {
+func (g *Game) InitGame(playerName string) string {
+	id := uuid.New()
+	g.gameID = id.String()
+
+	g.AddPlayer(CreatePlayer(playerName))
+
+	return g.gameID
+}
+
+func (g *Game) AddPlayer(p Player) {
 	g.players = append(g.players, p)
 }
 
-func (g *Game) startGame() {
+func (g *Game) StartGame() {
 	g.state.crntActivePlayer = 0
 	g.state.maxPlayers = len(g.players)
 }
 
-func (g *Game) updateChosenNumber(val int) {
+func (g *Game) UpdateChosenNumber(val int) {
 	g.state.chosenNumber = val
 }
 
-func (g *Game) performGamechanges() {
+func (g *Game) PerformGamechanges() {
 
 	for _, val := range g.players {
 
-		val.updateMatrix(g.state.chosenNumber)
+		val.updateBingoLines(g.state.chosenNumber)
 
 		if val.isBingo {
 
 			g.winner = val
-			g.exitGame()
+			g.ExitGame()
 			return
 		}
 	}
 
-	g.state.updateState()
+	g.state.UpdateState()
 
 }
 
-func (g *Game) exitGame() {
+func (g *Game) ExitGame() {
 	fmt.Println("Winner is ", g.winner.name)
 }
