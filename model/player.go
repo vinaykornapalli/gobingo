@@ -12,35 +12,27 @@ type Player struct {
 	isBingo      bool
 }
 
-func initPlayer(pName string) Player {
+func CreatePlayer(pName string) Player {
 
 	var p Player
+	p.InitPlayer(pName)
+
+	return p
+
+}
+
+func (p *Player) InitPlayer(pName string) {
+
 	id := uuid.New()
 	p.playerID = id.String()
 	p.name = pName
-	p.playerMatrix = initMatrix()
+	p.playerMatrix.InitMatrix()
 	p.bingoLines = 0
-
-	return p
 }
 
-func (p *Player) updateMatrix(val int) {
+func (p *Player) updateBingoLines(chosenNumber int) {
 
-	for i := 0; i < 5; i++ {
-
-		for j := 0; j < 5; j++ {
-
-			if p.playerMatrix.cell[i][j] == val {
-				p.playerMatrix.cell[i][j] = 0
-				p.updateBingoLines(i, j)
-				break
-			}
-		}
-	}
-
-}
-
-func (p *Player) updateBingoLines(row int, col int) {
+	row, col := p.playerMatrix.UpdateMatrix(chosenNumber)
 
 	//checking row
 	l := 0
