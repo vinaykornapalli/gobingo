@@ -2,12 +2,12 @@ package model
 
 import (
 	"fmt"
-
+	"encoding/json"
 	"github.com/google/uuid"
 )
 
 type Game struct {
-	gameID  string
+	gameID  string 
 	state   GameState
 	players []Player
 	winner  Player
