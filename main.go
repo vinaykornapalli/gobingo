@@ -6,9 +6,11 @@ author: Vinay Kornapalli, Nikhila Munipalli
 */
 package main
 
-import ("fmt")
+import (
+        "github.com/gobingo/api"
+ )
 
 
 func main() {
-  fmt.Println("Kickoff!!")
+  api.InitAPI()
 }
