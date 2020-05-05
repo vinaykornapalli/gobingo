@@ -45,13 +45,14 @@ func (g *Game) UpdateChosenNumber(val int) {
 
 func (g *Game) PerformGamechanges() {
 
-	for _, val := range g.players {
+	for i, _ := range g.players {
+		fmt.Println(g.players[i].playerMatrix)
+		fmt.Println(g.state.chosenNumber)
+		g.players[i].updateBingoLines(g.state.chosenNumber)
+		fmt.Println(g.players[i].playerMatrix)
+		if g.players[i].isBingo {
 
-		val.updateBingoLines(g.state.chosenNumber)
-
-		if val.isBingo {
-
-			g.winner = val
+			g.winner = g.players[i]
 			g.ExitGame()
 			return
 		}
