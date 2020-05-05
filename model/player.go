@@ -6,14 +6,16 @@ import (
 	"github.com/google/uuid"
 )
 
+//Player type
 type Player struct {
-	playerID     string
-	name         string
-	playerMatrix BingoMatrix
-	bingoLines   int
-	isBingo      bool
+	PlayerID     string       `json:"player_id"`
+	Name         string       `json:"name"`
+	PlayerMatrix BingoMatrix  `json:"player_matrix"`
+	BingoLines   int          `json:"bingo_lines"`
+	IsBingo      bool         `json:"is_bingo"`
 }
 
+//CreatePlayer creates and returns a new player
 func CreatePlayer(pName string) Player {
 
 	var p Player
@@ -23,18 +25,19 @@ func CreatePlayer(pName string) Player {
 
 }
 
+//InitPlayer initilize a new player
 func (p *Player) InitPlayer(pName string) {
 
 	id := uuid.New()
-	p.playerID = id.String()
-	p.name = pName
-	p.playerMatrix.InitMatrix()
-	p.bingoLines = 0
+	p.PlayerID = id.String()
+	p.Name = pName
+	p.PlayerMatrix.InitMatrix()
+	p.BingoLines = 0
 }
 
-func (p *Player) updateBingoLines(chosenNumber int) {
+func (p *Player) updateBingoLines(ChosenNumber int) {
 
-	row, col := p.playerMatrix.UpdateMatrix(chosenNumber)
+	row, col := p.PlayerMatrix.UpdateMatrix(ChosenNumber)
 	fmt.Println(row, col)
 
 	//checking row
@@ -42,7 +45,7 @@ func (p *Player) updateBingoLines(chosenNumber int) {
 
 	for i := 0; i < 5; i++ {
 
-		if p.playerMatrix.cell[row][i] != 0 {
+		if p.PlayerMatrix.Cell[row][i] != 0 {
 			l = 1
 			break
 		}
@@ -51,18 +54,18 @@ func (p *Player) updateBingoLines(chosenNumber int) {
 	if l == 0 {
 		for i := 0; i < 5; i++ {
 
-			p.playerMatrix.cell[row][i] = 26
+			p.PlayerMatrix.Cell[row][i] = 26
 		}
 
-		p.bingoLines = p.bingoLines + 1
-		p.playerMatrix.cell[row][col] = 0
+		p.BingoLines = p.BingoLines + 1
+		p.PlayerMatrix.Cell[row][col] = 0
 	}
 
 	//checking column
 	l = 0
 	for i := 0; i < 5; i++ {
 
-		if p.playerMatrix.cell[i][col] != 0 {
+		if p.PlayerMatrix.Cell[i][col] != 0 {
 			l = 1
 			break
 		}
@@ -70,11 +73,11 @@ func (p *Player) updateBingoLines(chosenNumber int) {
 	if l == 0 {
 		for i := 0; i < 5; i++ {
 
-			p.playerMatrix.cell[i][col] = 26
+			p.PlayerMatrix.Cell[i][col] = 26
 		}
 
-		p.bingoLines = p.bingoLines + 1
-		p.playerMatrix.cell[row][col] = 0
+		p.BingoLines = p.BingoLines + 1
+		p.PlayerMatrix.Cell[row][col] = 0
 	}
 
 	//checking diagonal1
@@ -83,7 +86,7 @@ func (p *Player) updateBingoLines(chosenNumber int) {
 
 		for i := 0; i < 5; i++ {
 
-			if p.playerMatrix.cell[i][i] != 0 {
+			if p.PlayerMatrix.Cell[i][i] != 0 {
 				l = 1
 				break
 			}
@@ -92,11 +95,11 @@ func (p *Player) updateBingoLines(chosenNumber int) {
 		if l == 0 {
 			for i := 0; i < 5; i++ {
 
-				p.playerMatrix.cell[i][i] = 26
+				p.PlayerMatrix.Cell[i][i] = 26
 			}
 
-			p.bingoLines = p.bingoLines + 1
-			p.playerMatrix.cell[row][col] = 0
+			p.BingoLines = p.BingoLines + 1
+			p.PlayerMatrix.Cell[row][col] = 0
 		}
 	}
 
@@ -107,7 +110,7 @@ func (p *Player) updateBingoLines(chosenNumber int) {
 
 		for i := 0; i < 5; i++ {
 
-			if p.playerMatrix.cell[i][4-i] != 0 {
+			if p.PlayerMatrix.Cell[i][4-i] != 0 {
 				l = 1
 				break
 			}
@@ -115,16 +118,16 @@ func (p *Player) updateBingoLines(chosenNumber int) {
 		if l == 0 {
 			for i := 0; i < 5; i++ {
 
-				p.playerMatrix.cell[i][4-i] = 26
+				p.PlayerMatrix.Cell[i][4-i] = 26
 			}
-			p.bingoLines = p.bingoLines + 1
+			p.BingoLines = p.BingoLines + 1
 		}
 	}
 
 }
 
 func (p *Player) checkIsBingo() {
-	if p.bingoLines == 5 {
-		p.isBingo = true
+	if p.BingoLines == 5 {
+		p.IsBingo = true
 	}
 }

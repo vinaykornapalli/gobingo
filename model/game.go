@@ -9,63 +9,69 @@ import (
 )
 //Game Struct
 type Game struct {
-	gameID  string `json:game_id`
-	state   GameState `json:state`
-	players []Player `json:players`
-	winner  Player	`json:winner`
+	GameID  string `json:"game_id"`
+	State   GameState `json:"state"`
+	Players []Player `json:"players"`
+	Winner  Player	`json:"winner"`
 }
 
+//CreateNewGame creates and returns a new game
 func CreateNewGame(playerName string) string {
 
 	var g Game
-	newgameID := g.InitGame(playerName)
+	newGameID := g.InitGame(playerName)
 
-	return newgameID
+	return newGameID
 }
 
+//InitGame intializes a new game
 func (g *Game) InitGame(playerName string) string {
 	id := uuid.New()
-	g.gameID = id.String()
+	g.GameID = id.String()
 	g.AddPlayer(CreatePlayer(playerName))
 	g.CreateGameStore()
-	return g.gameID
+	return g.GameID
 }
 
+//AddPlayer add a new player into an existing game
 func (g *Game) AddPlayer(p Player) {
-	g.players = append(g.players, p)
+	g.Players = append(g.Players, p)
 }
 
+//StartGame startes the game once all players are ready
 func (g *Game) StartGame() {
-	g.state.crntActivePlayer = 0
-	g.state.maxPlayers = len(g.players)
+	g.State.CrntActivePlayer = 0
+	g.State.MaxPlayers = len(g.Players)
 }
 
-func (g *Game) UpdatechosenNumber(val int) {
-	g.state.chosenNumber = val
+//UpdateChosenNumber updates chosen number in state
+func (g *Game) UpdateChosenNumber(val int) {
+	g.State.ChosenNumber = val
 }
 
+//PerformGamechanges is a all in one game handler
 func (g *Game) PerformGamechanges() {
 
-	for i := range g.players {
-		fmt.Println(g.players[i].playerMatrix)
-		fmt.Println(g.state.chosenNumber)
-		g.players[i].updateBingoLines(g.state.chosenNumber)
-		fmt.Println(g.players[i].playerMatrix)
-		if g.players[i].isBingo {
+	for i := range g.Players {
+		fmt.Println(g.Players[i].PlayerMatrix)
+		fmt.Println(g.State.ChosenNumber)
+		g.Players[i].updateBingoLines(g.State.ChosenNumber)
+		fmt.Println(g.Players[i].PlayerMatrix)
+		if g.Players[i].IsBingo {
 
-			g.winner = g.players[i]
+			g.Winner = g.Players[i]
 			g.ExitGame()
 			return
 		}
 	}
 
-	g.state.UpdateState()
+	g.State.UpdateState()
 
 }
 
 //ExitGame is used to end the game
 func (g *Game) ExitGame() {
-	fmt.Println("winner is ", g.winner.name)
+	fmt.Println("Winner is ", g.Winner.Name)
 }
 
 
@@ -76,8 +82,8 @@ func (g *Game) ExitGame() {
 //CreateGameStore is used to create a storage for game data
 func (g *Game) CreateGameStore() (int,error) {
 	
-	fname:= "store/" + g.gameID + ".json"
-	f , err := os.Create(fname)
+	fName:= g.GameID + ".json"
+	f , err := os.Create(fName)
 	if err!=nil {
 		panic(err)
 	}
@@ -91,22 +97,22 @@ func (g *Game) CreateGameStore() (int,error) {
 	if err!=nil {
 		panic(err)
 	}
-
+	defer f.Close()
   return co , err
 }
 
 //RetriveGameFromStore retirves type game data from game store
 func (g *Game) RetriveGameFromStore(id string) {
-	fname := "store/" + id + ".json"
-	data , _ := ioutil.ReadFile(fname)
+	fName :=  id + ".json"
+	data , _ := ioutil.ReadFile(fName)
 	json.Unmarshal(data,g)
 
 }
 
 //UpdateGameStore is used to make changes in game data inside store
 func (g *Game) UpdateGameStore(id string)(int , error){
-	fname := "store/" + id + ".json"
-	f , _ := os.Open(fname)
+	fName :=  id + ".json"
+	f , _ := os.Open(fName)
 
 	blob , err :=json.Marshal(g)
 	if err!=nil {
@@ -117,12 +123,13 @@ func (g *Game) UpdateGameStore(id string)(int , error){
 	if err!=nil {
 		panic(err)
 	}
+	defer f.Close()
 	return co , err
 }
 
 //DeleteGameStore is to be used to delete game data once game is completed
 func (g *Game) DeleteGameStore(id string){
-	fname := "store/" + id + ".json"
-	os.Remove(fname)
+	fName :=  id + ".json"
+	os.Remove(fName)
 }
 

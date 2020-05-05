@@ -4,11 +4,12 @@ import (
 	"math/rand"
 	"time"
 )
-
+//BingoMatrix Structure
 type BingoMatrix struct {
-	cell [5][5]int
+	Cell [5][5]int  `json:"cell"`
 }
 
+//InitMatrix initializes a new matrix of a player
 func (b *BingoMatrix) InitMatrix() {
 
 	var a []int
@@ -24,20 +25,21 @@ func (b *BingoMatrix) InitMatrix() {
 
 		for j := 0; j < 5; j++ {
 
-			b.cell[i][j] = a[(i*5)+j]
+			b.Cell[i][j] = a[(i*5)+j]
 		}
 
 	}
 }
 
+//UpdateMatrix updates changes in the matrix
 func (b *BingoMatrix) UpdateMatrix(val int) (int, int) {
 
 	for i := 0; i < 5; i++ {
 
 		for j := 0; j < 5; j++ {
 
-			if b.cell[i][j] == val {
-				b.cell[i][j] = 0
+			if b.Cell[i][j] == val {
+				b.Cell[i][j] = 0
 				return i, j
 			}
 		}
