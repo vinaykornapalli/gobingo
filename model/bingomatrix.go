@@ -9,7 +9,7 @@ type BingoMatrix struct {
 	cell [][]int
 }
 
-func (b BingoMatrix) InitMatrix() {
+func (b *BingoMatrix) InitMatrix() {
 
 	var a []int
 

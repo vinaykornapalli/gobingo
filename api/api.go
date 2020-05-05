@@ -1,7 +1,6 @@
 package api
 
 import (
-	     "fmt"
 	     "github.com/gorilla/mux" 
 		 "net/http"
 		)

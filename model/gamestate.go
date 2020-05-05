@@ -1,18 +1,18 @@
 package model
 
 type GameState struct {
-	crntActivePlayer int
-	chosenNumber     int
-	maxPlayers       int
-	finishedNumbers  []int
+	CrntActivePlayer int
+	ChosenNumber     int
+	MaxPlayers       int
+	FinishedNumbers  []int
 }
 
 func (s *GameState) UpdateState() {
 
-	s.finishedNumbers = append(s.finishedNumbers, s.chosenNumber)
-	if s.crntActivePlayer == s.maxPlayers-1 {
-		s.crntActivePlayer = 0
+	s.FinishedNumbers = append(s.FinishedNumbers, s.ChosenNumber)
+	if s.CrntActivePlayer == s.MaxPlayers-1 {
+		s.CrntActivePlayer = 0
 	} else {
-		s.crntActivePlayer = s.crntActivePlayer + 1
+		s.CrntActivePlayer = s.CrntActivePlayer + 1
 	}
 }
