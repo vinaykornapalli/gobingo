@@ -13,21 +13,19 @@ type Game struct {
 	winner  Player
 }
 
-func CreateNewGame(playerName string) string {
+func CreateNewGame(playerName string) Game {
 
 	var g Game
-	newgameID := g.InitGame(playerName)
+	g.InitGame(playerName)
 
-	return newgameID
+	return g
 }
 
-func (g *Game) InitGame(playerName string) string {
+func (g *Game) InitGame(playerName string) {
 	id := uuid.New()
 	g.gameID = id.String()
 
 	g.AddPlayer(CreatePlayer(playerName))
-
-	return g.gameID
 }
 
 func (g *Game) AddPlayer(p Player) {
@@ -45,13 +43,14 @@ func (g *Game) UpdateChosenNumber(val int) {
 
 func (g *Game) PerformGamechanges() {
 
-	for _, val := range g.players {
+	for i, _ := range g.players {
+		fmt.Println(g.players[i].playerMatrix)
+		fmt.Println(g.state.chosenNumber)
+		g.players[i].updateBingoLines(g.state.chosenNumber)
+		fmt.Println(g.players[i].playerMatrix)
+		if g.players[i].isBingo {
 
-		val.updateBingoLines(g.state.chosenNumber)
-
-		if val.isBingo {
-
-			g.winner = val
+			g.winner = g.players[i]
 			g.ExitGame()
 			return
 		}

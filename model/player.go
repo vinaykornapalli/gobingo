@@ -1,6 +1,8 @@
 package model
 
 import (
+	"fmt"
+
 	"github.com/google/uuid"
 )
 
@@ -33,6 +35,7 @@ func (p *Player) InitPlayer(pName string) {
 func (p *Player) updateBingoLines(chosenNumber int) {
 
 	row, col := p.playerMatrix.UpdateMatrix(chosenNumber)
+	fmt.Println(row, col)
 
 	//checking row
 	l := 0
@@ -50,10 +53,10 @@ func (p *Player) updateBingoLines(chosenNumber int) {
 
 			p.playerMatrix.cell[row][i] = 26
 		}
-	}
 
-	p.bingoLines = p.bingoLines + 1
-	p.playerMatrix.cell[row][col] = 0
+		p.bingoLines = p.bingoLines + 1
+		p.playerMatrix.cell[row][col] = 0
+	}
 
 	//checking column
 	l = 0
@@ -64,16 +67,15 @@ func (p *Player) updateBingoLines(chosenNumber int) {
 			break
 		}
 	}
-
 	if l == 0 {
 		for i := 0; i < 5; i++ {
 
 			p.playerMatrix.cell[i][col] = 26
 		}
-	}
 
-	p.bingoLines = p.bingoLines + 1
-	p.playerMatrix.cell[row][col] = 0
+		p.bingoLines = p.bingoLines + 1
+		p.playerMatrix.cell[row][col] = 0
+	}
 
 	//checking diagonal1
 	l = 0
@@ -86,20 +88,21 @@ func (p *Player) updateBingoLines(chosenNumber int) {
 				break
 			}
 		}
-	}
 
-	if l == 0 {
-		for i := 0; i < 5; i++ {
+		if l == 0 {
+			for i := 0; i < 5; i++ {
 
-			p.playerMatrix.cell[i][i] = 26
+				p.playerMatrix.cell[i][i] = 26
+			}
+
+			p.bingoLines = p.bingoLines + 1
+			p.playerMatrix.cell[row][col] = 0
 		}
 	}
 
-	p.bingoLines = p.bingoLines + 1
-	p.playerMatrix.cell[row][col] = 0
-
 	//checking diagonal2
 	l = 0
+
 	if row == 4-col {
 
 		for i := 0; i < 5; i++ {
@@ -109,16 +112,15 @@ func (p *Player) updateBingoLines(chosenNumber int) {
 				break
 			}
 		}
-	}
+		if l == 0 {
+			for i := 0; i < 5; i++ {
 
-	if l == 0 {
-		for i := 0; i < 5; i++ {
-
-			p.playerMatrix.cell[i][4-i] = 26
+				p.playerMatrix.cell[i][4-i] = 26
+			}
+			p.bingoLines = p.bingoLines + 1
 		}
 	}
 
-	p.bingoLines = p.bingoLines + 1
 }
 
 func (p *Player) checkIsBingo() {
