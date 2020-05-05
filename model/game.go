@@ -9,10 +9,10 @@ import (
 )
 //Game Struct
 type Game struct {
-	GameID  string `json:game_id`
-	State   GameState `json:state`
-	Players []Player `json:players`
-	Winner  Player	`json:winner`
+	gameID  string `json:game_id`
+	state   GameState `json:state`
+	players []Player `json:players`
+	winner  Player	`json:winner`
 }
 
 func CreateNewGame(playerName string) string {
@@ -25,51 +25,58 @@ func CreateNewGame(playerName string) string {
 
 func (g *Game) InitGame(playerName string) string {
 	id := uuid.New()
-	g.GameID = id.String()
+	g.gameID = id.String()
 	g.AddPlayer(CreatePlayer(playerName))
 	g.CreateGameStore()
-	return g.GameID
+	return g.gameID
 }
 
 func (g *Game) AddPlayer(p Player) {
-	g.Players = append(g.Players, p)
+	g.players = append(g.players, p)
 }
 
 func (g *Game) StartGame() {
-	g.State.CrntActivePlayer = 0
-	g.State.MaxPlayers = len(g.Players)
+	g.state.crntActivePlayer = 0
+	g.state.maxPlayers = len(g.players)
 }
 
-func (g *Game) UpdateChosenNumber(val int) {
-	g.State.ChosenNumber = val
+func (g *Game) UpdatechosenNumber(val int) {
+	g.state.chosenNumber = val
 }
 
 func (g *Game) PerformGamechanges() {
 
-	for _, val := range g.Players {
+	for i := range g.players {
+		fmt.Println(g.players[i].playerMatrix)
+		fmt.Println(g.state.chosenNumber)
+		g.players[i].updateBingoLines(g.state.chosenNumber)
+		fmt.Println(g.players[i].playerMatrix)
+		if g.players[i].isBingo {
 
-		val.updateBingoLines(g.State.ChosenNumber)
-
-		if val.IsBingo {
-			g.Winner = val
+			g.winner = g.players[i]
 			g.ExitGame()
 			return
 		}
 	}
 
-	g.State.UpdateState()
+	g.state.UpdateState()
 
 }
 
 //ExitGame is used to end the game
 func (g *Game) ExitGame() {
-	fmt.Println("Winner is ", g.Winner.Name)
+	fmt.Println("winner is ", g.winner.name)
 }
+
+
+
+//DB PART
+
 
 //CreateGameStore is used to create a storage for game data
 func (g *Game) CreateGameStore() (int,error) {
 	
-	fname:= "store/" + g.GameID + ".json"
+	fname:= "store/" + g.gameID + ".json"
 	f , err := os.Create(fname)
 	if err!=nil {
 		panic(err)

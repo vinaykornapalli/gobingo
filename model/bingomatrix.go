@@ -6,7 +6,7 @@ import (
 )
 
 type BingoMatrix struct {
-	cell [][]int
+	cell [5][5]int
 }
 
 func (b *BingoMatrix) InitMatrix() {
