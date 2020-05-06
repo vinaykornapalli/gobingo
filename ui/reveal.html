@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+    <link href='https://fonts.googleapis.com/css?family=Amatic SC' rel='stylesheet'>
+<head></head>
+
+<style>
+:root {
+	--animation-delay: 0;
+	--duration: 800ms;
+	--iterations: 1;
+}
+body {
+	background-color: #00FFFF;
+}
+
+.reveal,
+.reveal::after {
+	        animation-delay: 0;
+	        animation-delay: var(--animation-delay, 2s);
+	        animation-iteration-count: 1;
+	        animation-iteration-count: var(--iterations, 1);
+	        animation-duration: 800ms;
+	        animation-duration: var(--duration, 800ms);
+	        animation-fill-mode: both;
+	        animation-timing-function: cubic-bezier(0.0, 0.0, 0.2, 1);
+} 
+
+.reveal {
+	position: relative;
+	font-size: 40px;
+	animation-name: text;
+	color: #000000;
+	white-space: nowrap;
+	cursor: default;
+	text-transform: uppercase;
+    font-family:'Amatic SC' ;
+	
+}
+
+.reveal::after {
+		content: "";
+		position: absolute;
+		z-index: 999;
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		background-color: #f2f98b;
+		        transform: scaleX(0);
+		        transform-origin: 0 50%;
+		pointer-events: none;
+		        animation-name: revealer;
+	}
+
+
+
+@keyframes text {
+	from {
+		        clip-path: inset(0 100% 0 0);
+	}
+	to {
+		        clip-path: inset(0 0 0 0);
+	}
+}
+
+
+
+
+@keyframes revealer {
+	
+	0%, 50% {
+		        transform-origin: 0 50%;
+	}
+	
+	60%, 100% {
+		        transform-origin: 100% 50%;		
+	}
+
+	
+	60% {
+		        transform: scaleX(1);
+	}
+	
+	100% {
+		        transform: scaleX(0);
+	}
+}
+</style>
+ 
+<body>
+ 
+  <h1 class="reveal">
+    B
+</h1>
+</body>
+ 
+</html>

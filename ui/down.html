@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link href='https://fonts.googleapis.com/css?family=Gloria Hallelujah' rel='stylesheet'>
+
+<style>
+:root {
+	--animation-delay: 0;
+	--duration: 800ms;
+	--iterations: 1;
+}
+td{
+  color: black;
+  background:  #00FFFF;
+  padding: 5px 5px;
+  text-align: center;
+  height:50px;
+  text-decoration: none;
+  font-size: 3                                                                                                                                                                      0px;
+  width: 40px;
+  margin: 4px 2px;
+  font-family: 'Gloria Hallelujah';
+  transition:all .5s ease;
+  outline:none;
+  box-shadow: 20px 38px 34px -26px hsla(0,0%,0%,.4);
+  border-radius: 255px 15px 225px 15px/15px 225px 15px 255px;
+  cursor: default;
+}
+
+
+.reveal,
+.reveal::after {
+	        animation-delay: 0;
+	        animation-delay: var(--animation-delay, 2s);
+	        animation-iteration-count: 1;
+	        animation-iteration-count: var(--iterations, 1);
+	        animation-duration: 800ms;
+	        animation-duration: var(--duration, 800ms);
+	        animation-fill-mode: both;
+	        animation-timing-function: cubic-bezier(0.0, 0.0, 0.2, 1);
+} 
+
+.reveal {
+	position: relative;
+	font-size: 30px;
+	animation-name: text;
+	color: #000000;
+	white-space: nowrap;
+	cursor: default;
+	text-transform: uppercase;
+    font-family:'Gloria Hallelujah' ;
+	
+}
+
+.reveal::after {
+		content: "";
+		position: absolute;
+		z-index: 999;
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		background-color: #f2f98b;
+		        transform: scaleX(0);
+		        transform-origin: 0 50%;
+		pointer-events: none;
+		        animation-name: revealer;
+	}
+
+
+
+@keyframes text {
+	from {
+		        clip-path: inset(0 100% 0 0);
+	}
+	to {
+		        clip-path: inset(0 0 0 0);
+	}
+}
+
+
+
+
+@keyframes revealer {
+	
+	0%, 50% {
+		        transform-origin: 0 50%;
+	}
+	
+	60%, 100% {
+		        transform-origin: 100% 50%;		
+	}
+
+	
+	60% {
+		        transform: scaleX(1);
+	}
+	
+	100% {
+		        transform: scaleX(0);
+	}
+}
+
+</style>
+
+
+
+</head>
+<body>
+
+<table>
+  <tr>
+    <td class="reveal">B</td>
+    <td>I</td>
+    <td>N</td>
+    <td>G</td>
+    <td>O</td>
+  </tr>
+</table>
+
+</body>
+</html>
