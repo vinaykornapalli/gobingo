@@ -14,6 +14,5 @@ import (
 
 func main() {
   api.InitAPI()
-  var g model.Game
-  g.InitGame("Vinay")
+  
 }
