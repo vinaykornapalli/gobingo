@@ -8,7 +8,7 @@ import (
 
 //NewGame starts a new game by the first player
 func NewGame(w http.ResponseWriter , r *http.Request) {
-
+  
 }
 
 //JoinGame starts a new game by the first player
