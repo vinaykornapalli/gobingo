@@ -126,7 +126,7 @@ func (p *Player) updateBingoLines(ChosenNumber int) {
 
 }
 
-func (p *Player) checkIsBingo() {
+func (p *	Player) checkIsBingo() {
 	if p.BingoLines == 5 {
 		p.IsBingo = true
 	}
