@@ -15,14 +15,14 @@ type Game struct {
 	Winner  Player	`json:"winner"`
 }
 
-//CreateNewGame creates and returns a new game
-func CreateNewGame(playerName string) string {
+// //CreateNewGame creates and returns a new game
+// func CreateNewGame(playerName string) string {
 
-	var g Game
-	newGameID := g.InitGame(playerName)
+// 	var g Game
+// 	newGameID := g.InitGame(playerName)
 
-	return newGameID
-}
+// 	return newGameID
+// }
 
 //InitGame intializes a new game
 func (g *Game) InitGame(playerName string) string {
@@ -30,7 +30,7 @@ func (g *Game) InitGame(playerName string) string {
 	g.GameID = id.String()
 	g.AddPlayer(CreatePlayer(playerName))
 	g.CreateGameStore()
-	return g.GameID
+     return g.GameID
 }
 
 //AddPlayer add a new player into an existing game
@@ -132,4 +132,5 @@ func (g *Game) DeleteGameStore(id string){
 	fName :=  id + ".json"
 	os.Remove(fName)
 }
+
 

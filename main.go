@@ -8,7 +8,6 @@ package main
 
 import (
         "github.com/gobingo/api"
-        "github.com/gobingo/model"
  )
 
 
