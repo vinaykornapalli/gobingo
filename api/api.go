@@ -18,7 +18,7 @@ func InitAPI() {
 	go gs.SendDataToClients(streamID , data)
 	r:=mux.NewRouter()
 	r.HandleFunc("/newgame" , NewGame)
-	r.HandleFunc("/joingame/{id:[0-9]+}" , JoinGame)
+	r.HandleFunc("/join/{id:[A-Za-z0-9]+}" , JoinGame)
 	r.HandleFunc("/event", gs.eventHandler)
 	http.ListenAndServe(":8080" ,handlers.CORS()(r) )
 }

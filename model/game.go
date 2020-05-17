@@ -3,7 +3,7 @@ package model
 import (
 	"fmt"
 	"encoding/json"
-	"github.com/google/uuid"
+	uuid "github.com/satori/go.uuid"
 	"os"
 	"io/ioutil"
 )
@@ -26,7 +26,7 @@ type Game struct {
 
 //InitGame intializes a new game
 func (g *Game) InitGame(playerName string) string {
-	id := uuid.New()
+	id := uuid.NewV4()
 	g.GameID = id.String()
 	g.AddPlayer(CreatePlayer(playerName))
 	g.CreateGameStore()
@@ -112,7 +112,8 @@ func (g *Game) RetriveGameFromStore(id string) {
 //UpdateGameStore is used to make changes in game data inside store
 func (g *Game) UpdateGameStore(id string)(int , error){
 	fName :=  id + ".json"
-	f , _ := os.Open(fName)
+	fmt.Println(fName)
+	f , _ := os.OpenFile(fName, os.O_WRONLY, os.ModeAppend)
 
 	blob , err :=json.Marshal(g)
 	if err!=nil {
