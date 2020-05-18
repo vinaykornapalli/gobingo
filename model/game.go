@@ -74,6 +74,14 @@ func (g *Game) ExitGame() {
 	fmt.Println("Winner is ", g.Winner.Name)
 }
 
+//GetLobbyList returns the list of all player names
+func (g *Game) GetLobbyList() []string {
+	var lobby []string
+	for _,val := range g.Players {
+		lobby = append(lobby,val.Name)
+	}
+  return lobby
+}
 
 
 //DB PART
